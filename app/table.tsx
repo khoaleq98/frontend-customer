@@ -32,7 +32,7 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
       </TableHead>
       <TableBody>
       {users.map((user: any, index: number) => {
-        const url = `http://localhost:3000/customer?customerId=${user[4]}`
+        const url = `https://frontend-customer-kappa.vercel.app/customer?customerId=${user[4]}`
         return (
         <TableRow key={index}>
           {user.map((item: any, index: number) => {
