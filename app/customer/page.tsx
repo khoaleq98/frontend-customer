@@ -62,12 +62,12 @@ export default async function Info() {
       <br />
       <p className="fs">Ngày bắt đầu</p>
       <p className="date">25/09/2023</p>
-      <p className="fs">Sự kiện Ademax</p>
+      <p className="fs">Sự kiện </p>
 
       <p className="fs">..............</p>
     </div>
   </div>
-          <Button className='mt-5' type="submit">Submit</Button>
+          <Button className='mt-5' type="submit">Tham Gia</Button>
           </form>
       </Card>
       </>) 
