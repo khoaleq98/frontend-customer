@@ -46,8 +46,8 @@ export default async function Info() {
           <Text className='mt-2'>Mã Khách Hàng: <Bold>{customer.id}</Bold></Text>
           <Text className='mt-2'>Tham Dự: <Bold>{customer.come}</Bold></Text> */}
           <div className="border">
-    <img className="img-top" src="" />
-    <img className="img-bottom" src="" />
+    <img className="img-top" src="https://i.ibb.co/z4pTwvc/download.png" />
+    <img className="img-bottom" src="https://i.ibb.co/z4pTwvc/download.png" />
 
     <div className="text-content">
       <p className="fm">Chúng tôi rất vui khi quý khách tham gia sự kiện này
