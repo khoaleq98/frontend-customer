@@ -8,6 +8,8 @@ import {
   TableCell,
   Text
 } from '@tremor/react';
+import { data } from 'autoprefixer';
+import { log } from 'console';
 
 import QRCode from 'react-qr-code';
 
@@ -32,7 +34,16 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
       </TableHead>
       <TableBody>
       {users.map((user: any, index: number) => {
-        const url = `https://frontend-customer-kappa.vercel.app/customer?customerId=${user[4]}`
+        const data = {
+           name: user[0],
+           phone: user[1],
+           company: user[2],
+           email: user[3],
+           id: user[4],
+           come: user[5],
+        }
+        const query = '?' + new URLSearchParams(data).toString();
+        let url = `https://frontend-customer-kappa.vercel.app/customer${query}`;
         return (
         <TableRow key={index}>
           {user.map((item: any, index: number) => {
