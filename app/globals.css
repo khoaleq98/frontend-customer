@@ -1,3 +1,73 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
+
+body {
+  background-color: transparent;
+  font-family: "Dancing Script", cursive;
+  color: #fcc779;
+}
+
+.main-card {
+  background-color: #22272d;
+  padding: 10%;
+  width: 600px;
+}
+
+.border {
+  height: 100%;
+  width: 100%;
+  border: 5px solid #fcc779;
+  text-align: center;
+  position: relative;
+  /* overflow: hidden; */
+}
+
+p {
+  margin: 2px 0px 2px 0px;
+  width: 100%;
+}
+
+.fl {
+  font-size: 5rem;
+  letter-spacing: 10px;
+}
+
+.fm {
+  font-size: 1.8rem;
+  letter-spacing: 5px;
+}
+
+.fs {
+  font-size: 1.5rem;
+  margin: 8px;
+}
+
+.date {
+  font-size: 1.4rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.img-top {
+  position: absolute;
+  top: -110px;
+  right: -70px;
+  height: 350px;
+  transform: rotate(-30deg);
+}
+
+.img-bottom {
+  position: absolute;
+  bottom: -115px;
+  left: -70px;
+  height: 350px;
+  transform: rotate(-212deg);
+}
+
+.text-content {
+  padding: 70px;
+}
+

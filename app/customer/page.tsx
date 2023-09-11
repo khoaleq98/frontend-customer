@@ -25,7 +25,6 @@ export default async function Info() {
     email: searchParams.get('email'),
     come: searchParams.get('come'),
   }
-  console.log({submit})
   const onSubmit: SubmitHandler<any> =  (data) => {
        axios.get('https://vercel-nodejs-six.vercel.app/api/customer-info', {
         params: customer
@@ -40,12 +39,34 @@ export default async function Info() {
       <Title color='red'>Thông tin khách mời</Title>
         <Card className="mt-6">
           <form onSubmit={handleSubmit(onSubmit)}>
-          <Text className='mt-2'>Tên: <Bold>{customer.name}</Bold></Text>
+          {/* <Text className='mt-2'>Tên: <Bold>{customer.name}</Bold></Text>
           <Text className='mt-2'>SDT: <Bold>{customer.phone}</Bold></Text>
           <Text className='mt-2'>Công ty: <Bold>{customer.company}</Bold></Text>
           <Text className='mt-2'>Email: <Bold>{customer.email}</Bold></Text>
           <Text className='mt-2'>Mã Khách Hàng: <Bold>{customer.id}</Bold></Text>
-          <Text className='mt-2'>Tham Dự: <Bold>{customer.come}</Bold></Text>
+          <Text className='mt-2'>Tham Dự: <Bold>{customer.come}</Bold></Text> */}
+          <div className="border">
+    <img className="img-top" src="" />
+    <img className="img-bottom" src="" />
+
+    <div className="text-content">
+      <p className="fm">Chúng tôi rất vui khi quý khách tham gia sự kiện này
+      </p>
+      <br /><br />
+      <p className="fs">{customer.name}</p>
+      <p className="fs">{customer.company}</p>
+      <p className="fs">{customer.email}</p>
+      <p className="fs">{customer.phone}</p>
+      <br />
+
+      <br />
+      <p className="fs">Ngày bắt đầu</p>
+      <p className="date">25/09/2023</p>
+      <p className="fs">Sự kiện Ademax</p>
+
+      <p className="fs">..............</p>
+    </div>
+  </div>
           <Button className='mt-5' type="submit">Submit</Button>
           </form>
       </Card>
