@@ -9,6 +9,8 @@ import { useState } from 'react';
 
 export default async function Info() {
   const [submit, setSumit] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -24,11 +26,16 @@ export default async function Info() {
     email: searchParams.get('email'),
     come: searchParams.get('come')
   };
-  const onSubmit: SubmitHandler<any> = (data) => {
-    axios.get('https://vercel-nodejs-six.vercel.app/api/customer-info', {
-      params: {...customer, password: data.password}
-    });
-    setSumit(true);
+  const onSubmit: SubmitHandler<any> = async (data) => {
+    try {
+      const res = await axios.get('https://vercel-nodejs-six.vercel.app/api/customer-info', {
+        params: {id: searchParams.get('id'), password: data.password}
+      });
+      setSubmitSuccess(true);
+      setSumit(true);
+    }catch(e) {
+      setSubmitSuccess(false);
+    }
   };
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
@@ -67,16 +74,16 @@ export default async function Info() {
                   <p className="fs">..............</p>
                 </div>
               </div>
-              <TextInput {...register("password")}  className='mt-2' placeholder='Mã tham dự của khách mời'/>
+              <TextInput {...register("password")}  className='mt-2' placeholder='Nhân viên nhập mã tham dự'/>
               <Button className="mt-5" type="submit">
-                Tham Gia
+                Tham Gia (Dành cho nhân viên)
               </Button>
             </form>
           </Card>
         </>
       ) : (
         <>
-          <Title color="red">Cảm ơn sự tham gia của bạn</Title>
+          {submitSuccess ?  <Title color="red">Cảm ơn sự tham gia của bạn</Title>: <>Mã khách hàng không đúng</>} 
         </>
       )}
     </main>
