@@ -39,10 +39,10 @@ export default async function Info() {
     }
   };
   return (
-    <main className="p-4 md:p-10 mx-auto max-w-7xl">
+    <main className="mx-auto max-w-7xl">
       {!submit ? (
         <>
-        <main className="p-4 md:p-10 mx-auto max-w-4xl">
+        <main className="mx-auto max-w-7xl">
           <Image alt='test' src='/banner.png' width={1500} height={100} priority={false} />
           <Card className="mx-auto">
             <Image alt='confirmtext' src='/confirm.png' width={500} height={100} className='center'/>
