@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default async function Info() {
   const [submit, setSumit] = useState(false);
@@ -18,6 +19,7 @@ export default async function Info() {
     formState: { errors }
   } = useForm<any>();
   const searchParams: any = useSearchParams();
+  console.log({searchParams})
   const customer = {
     id: searchParams.get('id'),
     phone: searchParams.get('phone'),
@@ -28,7 +30,7 @@ export default async function Info() {
   };
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
-      const res = await axios.get('https://vercel-nodejs-six.vercel.app/api/customer-info', {
+      await axios.get('https://vercel-nodejs-six.vercel.app/api/customer-info', {
         params: {id: searchParams.get('id'), password: data.password}
       });
       setSubmitSuccess(true);
@@ -41,45 +43,23 @@ export default async function Info() {
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
       {!submit ? (
         <>
-          <Title color="red">Thông tin khách mời</Title>
-          <Card className="mt-6">
+        <main className="p-4 md:p-10 mx-auto max-w-4xl">
+          <Image alt='test' src='/banner.png' width={1500} height={100} priority={false} />
+          <Card className="mx-auto">
+            <Image alt='confirmtext' src='/confirm.png' width={500} height={100} className='center'/>
+            <Text><Bold>Qúy khách hàng: </Bold> {customer.name} </Text>
+            <Text><Bold>Công ty: </Bold>{customer.company}</Text>
+            <Text><Bold>SĐT: </Bold>{customer.phone}</Text>
+            <Text><Bold>Email: </Bold>{customer.email}</Text>
+            <Text>Ban Tổ chức hân hạnh được đón tiếp!</Text>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="border">
-                <img
-                  className="img-top"
-                  src="https://i.ibb.co/z4pTwvc/download.png"
-                />
-                <img
-                  className="img-bottom"
-                  src="https://i.ibb.co/z4pTwvc/download.png"
-                />
-
-                <div className="text-content">
-                  <p className="fm">
-                    Thư mời tới sự kiện Connect to Future
-                  </p>
-                  <br />
-                  <br />
-                  <p className="fs">{customer.name}</p>
-                  <p className="fs">{customer.company}</p>
-                  <p className="fs">{customer.email}</p>
-                  <p className="fs">{customer.phone}</p>
-                  <br />
-
-                  <br />
-                  <p className="fs">Ngày bắt đầu</p>
-                  <p className="date">04/10/2023</p>
-                  <p className="fs">Sự kiện </p>
-
-                  <p className="fs">..............</p>
-                </div>
-              </div>
-              <TextInput {...register("password")}  className='mt-2' placeholder='Nhân viên nhập mã tham dự'/>
-              <Button className="mt-5" type="submit">
+            <TextInput {...register("password")}  className='mt-2' placeholder='Nhân viên nhập mã tham dự'/>
+            <Button className="mt-5" type="submit">
                 Tham Gia (Dành cho nhân viên)
               </Button>
             </form>
           </Card>
+          </main>
         </>
       ) : (
         <>
