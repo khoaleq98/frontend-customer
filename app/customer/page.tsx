@@ -19,15 +19,14 @@ export default async function Info() {
     formState: { errors }
   } = useForm<any>();
   const searchParams: any = useSearchParams();
-  console.log({searchParams})
-  const customer = {
+  const customer = searchParams ? {
     id: searchParams.get('id'),
     phone: searchParams.get('phone'),
     name: searchParams.get('name'),
     company: searchParams.get('company'),
     email: searchParams.get('email'),
     come: searchParams.get('come')
-  };
+  }: null;
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
       await axios.get('https://vercel-nodejs-six.vercel.app/api/customer-info', {
@@ -47,10 +46,10 @@ export default async function Info() {
           <Image alt='test' src='/banner.png' width={1500} height={100} priority={false} />
           <Card className="mx-auto">
             <Image alt='confirmtext' src='/confirm.png' width={500} height={100} className='center'/>
-            <Text><Bold>Qúy khách hàng: </Bold> {customer.name} </Text>
-            <Text><Bold>Công ty: </Bold>{customer.company}</Text>
-            <Text><Bold>SĐT: </Bold>{customer.phone}</Text>
-            <Text><Bold>Email: </Bold>{customer.email}</Text>
+            <Text><Bold>Qúy khách hàng: </Bold> {customer?.name} </Text>
+            <Text><Bold>Công ty: </Bold>{customer?.company}</Text>
+            <Text><Bold>SĐT: </Bold>{customer?.phone}</Text>
+            <Text><Bold>Email: </Bold>{customer?.email}</Text>
             <Text>Ban Tổ chức hân hạnh được đón tiếp!</Text>
             <form onSubmit={handleSubmit(onSubmit)}>
             <TextInput {...register("password")}  className='mt-2' placeholder='Nhân viên nhập mã tham dự'/>
