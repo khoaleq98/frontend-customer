@@ -47,7 +47,7 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
      }
      const query = '?' + new URLSearchParams(data).toString();
      const baseUrl = 'https://frontend-customer-kappa.vercel.app';
-     let url = `${baseUrl}${query}`;
+     let url = `${baseUrl}/customer${query}`;
      console.log({
       url
      })
