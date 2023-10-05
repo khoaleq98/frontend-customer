@@ -99,7 +99,7 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
       <Table>
       <TableHead>
         <TableRow>
-          {head.map((item: string, index: null) => {
+          {head.map((item: string, index: number) => {
             return (  <TableHeaderCell key={index}>{item}</TableHeaderCell>)
           } )}
           <TableHeaderCell>PDF</TableHeaderCell>
