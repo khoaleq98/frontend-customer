@@ -31,6 +31,7 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
   const [head, setHead] = useState([]);
   const [show, setShow] = useState(false);
   const [qrUrl, setQrUrl] = useState('');
+  const [selectedUser, setSelectedUser] = useState(null);
   useEffect(() => {  
     const head = users.shift();
     setHead(head)
@@ -39,6 +40,7 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
   const handleGeneratePdf = (id: number) => {
     const user = users.find(item => item[4] == id);
     if (user ) { 
+      setSelectedUser(user[0]);
       setShow(true);
       const data = {
         id: user[4],
@@ -63,13 +65,14 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
+    documentTitle: `thu moi khach ${selectedUser}`
     });
-  
+  console.log('user: ', selectedUser);
   return (
     <>
     <Modal size="lg"  show={show} >
         <Modal.Header closeButton>
-          <Modal.Title>Thông tin sự kiện</Modal.Title>
+          <Modal.Title>Thông tin khách mời: <Bold>{selectedUser ? selectedUser: ''}</Bold> </Modal.Title>
         </Modal.Header>
         <Modal.Body ref={componentRef} ><main  className="p-4 md:p-10 mx-auto max-w-4xl">
           <Image alt='test' src='/banner.png' width={1500} height={100} priority={false} />
