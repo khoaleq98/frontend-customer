@@ -7,15 +7,29 @@ import { useRouter } from 'next/router';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import Image from 'next/image';
+import { Col, Modal, Row } from 'react-bootstrap';
+
+async function submitData(id: any, password: string) {
+  const res = await axios.get('https://vercel-nodejs-six.vercel.app/api/customer-info', {
+        params: {id, password}
+      });
+  return res.data;
+}
+
+async function checkSubmitted(id: any) {
+  const res = await axios.get('https://vercel-nodejs-six.vercel.app/api/customer-info/check?id='+id);
+  return res.data;
+}
 
 export default async function Info() {
+
   const [submit, setSumit] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [show, setShow] = useState(false);
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors }
   } = useForm<any>();
   const searchParams: any = useSearchParams();
@@ -29,17 +43,24 @@ export default async function Info() {
   }: null;
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
-      await axios.get('https://vercel-nodejs-six.vercel.app/api/customer-info', {
-        params: {id: searchParams.get('id'), password: data.password}
-      });
+      await submitData(searchParams.get('id'), data.password)
       setSubmitSuccess(true);
       setSumit(true);
+      setShow(true);
     }catch(e) {
       setSubmitSuccess(false);
     }
   };
   return (
     <main className="mx-auto max-w-7xl">
+        <Modal size="lg"  show={show} >
+        <Modal.Header closeButton>
+          Sự kiện
+        </Modal.Header>
+        <Modal.Body >
+        <Text><Title>Checkin thành công</Title></Text>
+    </Modal.Body>
+    </Modal>
       {!submit ? (
         <>
         <main className="mx-auto max-w-7xl">

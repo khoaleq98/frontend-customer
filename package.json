@@ -41,6 +41,7 @@
     "react-form-elements": "^4.14.1",
     "react-hook-form": "^7.46.1",
     "react-qr-code": "^2.0.12",
+    "react-to-print": "^2.14.15",
     "server-only": "^0.0.1",
     "tailwindcss": "^3.3.3",
     "typescript": "5.2.2"

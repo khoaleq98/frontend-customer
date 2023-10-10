@@ -15,8 +15,9 @@ import {
 
 import QRCode from 'react-qr-code';
 import { Modal , Col, Row} from 'react-bootstrap';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import Image from 'next/image';
+import { useReactToPrint } from 'react-to-print';
 
 
 interface User {
@@ -34,6 +35,7 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
     const head = users.shift();
     setHead(head)
   }, [])  
+  const componentRef = useRef(null);
   const handleGeneratePdf = (id: number) => {
     const user = users.find(item => item[4] == id);
     if (user ) { 
@@ -58,6 +60,10 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
        console.error('ID khong hop le')
     }
   }
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    });
   
   return (
     <>
@@ -65,7 +71,7 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
         <Modal.Header closeButton>
           <Modal.Title>Thông tin sự kiện</Modal.Title>
         </Modal.Header>
-        <Modal.Body ><main  className="p-4 md:p-10 mx-auto max-w-4xl">
+        <Modal.Body ref={componentRef} ><main  className="p-4 md:p-10 mx-auto max-w-4xl">
           <Image alt='test' src='/banner.png' width={1500} height={100} priority={false} />
           <Card className="mx-auto">
             <Image alt='confirmtext' src='/confirm.png' width={500} height={100} className='center'/>
@@ -90,8 +96,8 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
             Close
           </Button>
           <Button variant="primary" onClick={() => {
-            console.log('close  ')
-          }}>
+            handlePrint()
+            }}>
             Get PDF
           </Button>
         </Modal.Footer>
