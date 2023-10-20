@@ -52,10 +52,6 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
      const query = '?' + new URLSearchParams(data).toString();
      const baseUrl = 'https://frontend-customer-kappa.vercel.app';
      let url = `${baseUrl}/customer${query}`;
-     console.log({
-      url
-     })
-     console.log(users)
      setQrUrl(url);
     }
     else {
@@ -80,7 +76,7 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
             <Image alt='confirmtext' src='/confirm.png' width={500} height={100} className='center'/>
             <Title className="px-auto-2">Kính gửi anh/chị</Title>
             <Text>Xin chân thành cảm ơn quý khách hàng đã đăng ký tham dự sự kiện <Bold>"COLLAB PARTNER CONNECT - CONNECT THE FUTURE"</Bold> do nhà phân phối Collab VietNam tổ chức</Text>
-            <Text><Bold>Địa Điểm: </Bold> Victoria Ballroom - Tầng 1, Khách sạn Fortuna, 6B Láng Hạ, Ba Đình, Hà Nội</Text>
+            <Text><Bold>Địa Điểm: </Bold> Victoria Ballroom - Tầng 4, Khách sạn Fortuna, 6B Láng Hạ, Ba Đình, Hà Nội</Text>
             <Text><Bold>Thời gian: </Bold>14:00 ngày 24/10/2023</Text>
             <Text><Bold>Khi đến Quý anh/chị vui lòng mang theo mã QR này để check-in sự kiện.</Bold></Text>
             <Text>Lưu ý: Mã QR được mã hóa cá nhân, vui lòng không chia sẻ với người khác.</Text>
