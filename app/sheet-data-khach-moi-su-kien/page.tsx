@@ -17,7 +17,7 @@ export default async function IndexPage({
   const {sheetName, rows} = await getData();
 
   return (
-    <main className="p-4 md:p-10 mx-auto max-w-7xl">
+    <main className="p-4 md:p-10 mx-auto ">
       <Title color='red'>Khách mời trong sheet: {sheetName} </Title>
       {/* <Search /> */}
       <Card className="mt-6">
