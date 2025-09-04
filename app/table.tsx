@@ -14,10 +14,14 @@ import {
 } from '@tremor/react';
 
 import QRCode from 'react-qr-code';
-import { Modal , Col, Row} from 'react-bootstrap';
-import {useState, useEffect, useRef} from 'react';
+import { Modal, Col, Row } from 'react-bootstrap';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useReactToPrint } from 'react-to-print';
+import InvitationBootstrapPro from './invite-card';
+import { m, px } from 'framer-motion';
+import { set } from 'react-hook-form';
+import html2canvas from 'html2canvas';
 
 
 interface User {
@@ -25,6 +29,7 @@ interface User {
   name: string;
   username: string;
   email: string;
+  avatar: string
 }
 
 export default function UsersTable({ users }: { users: User[] | any[] }) {
@@ -32,14 +37,52 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
   const [show, setShow] = useState(false);
   const [qrUrl, setQrUrl] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
-  useEffect(() => {  
+  const [user, setUser] = useState<null | { id: any; name: any; phone: any; company: any; email: any; avatar: any }>(null);
+  useEffect(() => {
     const head = users.shift();
     setHead(head)
-  }, [])  
+  }, [])
   const componentRef = useRef(null);
+  const handleDownload = async () => {
+    if (!componentRef.current) {
+      console.error('Component reference is null');
+      return;
+    }
+    try {
+      const canvas = await html2canvas(componentRef.current);
+      const dataUrl = canvas.toDataURL('image/jpeg');
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = selectedUser + '.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Failed to download image:', error);
+      alert('Failed to download image.');
+    }
+  };
+  const handleCopy = async () => {
+    if (!componentRef.current) {
+      console.error('Component reference is null');
+      return;
+    }
+    try {
+      const canvas = await html2canvas(componentRef.current);
+      const blob: Blob | null = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+      if (blob) {
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+      } else {
+        throw new Error('Failed to create image blob');
+      }
+    } catch (error) {
+      console.error('Failed to copy image:', error);
+      alert('Failed to copy image. Please ensure your browser permissions are granted and you are using a supported browser (Chrome/Edge, HTTPS).');
+    }
+  };
   const handleGeneratePdf = (id: number) => {
     const user = users.find(item => item[4] == id);
-    if (user ) { 
+    if (user) {
       setSelectedUser(user[0]);
       setShow(true);
       const data = {
@@ -48,96 +91,111 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
         phone: user[1],
         company: user[2],
         email: user[3],
-     }
-     const query = '?' + new URLSearchParams(data).toString();
-     const baseUrl = 'https://frontend-customer-kappa.vercel.app';
-     let url = `${baseUrl}/customer${query}`;
-     setQrUrl(url);
+        avatar: user[6]
+      }
+      console.log(user);
+      const query = '?' + new URLSearchParams(data).toString();
+      const baseUrl = 'https://frontend-customer-kappa.vercel.app';
+      let url = `${baseUrl}/customer${query}`;
+      setQrUrl(url);
+      setUser(data)
     }
     else {
-       console.error('ID khong hop le')
+      console.error('ID khong hop le')
     }
   }
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
     documentTitle: `thu moi khach ${selectedUser}`
-    });
-  console.log('user: ', selectedUser);
+  });
+  const style = {
+    backgroundImage: "url('/bg-new.png')",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    width: "1600px",
+    height: "1000px",
+  }
   return (
     <>
-    <Modal size="lg"  show={show} >
+      <Modal dialogClassName="custom-modal-size" show={show} className='px-auto' >
         <Modal.Header closeButton>
-          <Modal.Title>Thông tin khách mời: <Bold>{selectedUser ? selectedUser: ''}</Bold> </Modal.Title>
+          <Modal.Title>Thông tin khách mời: <Bold>{selectedUser ? selectedUser : ''}</Bold> </Modal.Title>
         </Modal.Header>
-        <Modal.Body ref={componentRef} ><main  className="p-4 md:p-10 mx-auto max-w-4xl">
-          <Image alt='test' src='/banner.png' width={1500} height={100} priority={false} />
-          <Card className="mx-auto">
-            <Image alt='confirmtext' src='/confirm.png' width={500} height={100} className='center'/>
-            <Title className="px-auto-2">Kính gửi anh/chị</Title>
-            <Text>Xin chân thành cảm ơn quý khách hàng đã đăng ký tham dự sự kiện <Bold>"COLLAB PARTNER CONNECT - CONNECT THE FUTURE"</Bold> do nhà phân phối Collab VietNam tổ chức</Text>
-            <Text><Bold>Địa Điểm: </Bold> Victoria Ballroom - Tầng 4, Khách sạn Fortuna, 6B Láng Hạ, Ba Đình, Hà Nội</Text>
-            <Text><Bold>Thời gian: </Bold>14:00 ngày 24/10/2023</Text>
-            <Text><Bold>Khi đến Quý anh/chị vui lòng mang theo mã QR này để check-in sự kiện.</Bold></Text>
-            <Text>Lưu ý: Mã QR được mã hóa cá nhân, vui lòng không chia sẻ với người khác.</Text>
-            <Row> 
-            < Col md={{ span: 4, offset: 8 }}>
-                <QRCode size={150} className='mt-8' value={qrUrl}></QRCode>
+        <Modal.Body  >
+          <main className="p-0 md:p-5 mx-0 max-w-8xl text-white" style={style} ref={componentRef}>
+            <Row className='custom-height'>
+              <Col lg={7} className="mx-0 d-flex flex-column align-items-center justify-content-center font-size-50">
+                <p className='custom-name'  >{selectedUser ? selectedUser : ''}</p>
+                <br />
+                <p>{user?.company}</p>
               </Col>
             </Row>
-            <Text>Ban Tổ chức hân hạnh được đón tiếp</Text>
-          </Card>
-    </main></Modal.Body>
+            <Row className='custom-height'>
+              <Col lg={7} className="mx-0 d-flex flex-column align-items-center justify-content-center font-size-50">
+                <QRCode size={100} value={qrUrl} bgColor='#2253A5' fgColor='white'></QRCode>
+
+              </Col>
+            </Row>
+          </main>
+        </Modal.Body >
         <Modal.Footer>
-        <Button variant="secondary" onClick={() => {
-            setShow(false); 
+          <Button variant="secondary" onClick={() => {
+            setShow(false);
           }}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => {
+          {/* <Button variant="primary" onClick={() => {
             handlePrint()
-            }}>
+          }}>
             Get PDF
+          </Button> */}
+
+          <Button variant="primary" onClick={() => {
+            handleDownload()
+          }}>
+            Download
           </Button>
         </Modal.Footer>
       </Modal>
       <Table>
-      <TableHead>
-        <TableRow>
-          {head.map((item: string, index: number) => {
-            return (  <TableHeaderCell key={index}>{item}</TableHeaderCell>)
-          } )}
-          <TableHeaderCell>PDF</TableHeaderCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-      {users.map((user: any, index: number) => {
-        const data = {
-           name: user[0],
-           phone: user[1],
-           company: user[2],
-           email: user[3],
-           id: user[4],
-        }
-        const query = '?' + new URLSearchParams(data).toString();
-        let url = `https://frontend-customer-kappa.vercel.app/customer${query}`;
-        return (
-        <TableRow key={index}>
-          {user.map((item: any, index: number) => {
-            return <TableCell key={index}>{item}</TableCell>
-          })}
-          {/* <TableCell>
+        <TableHead>
+          <TableRow>
+            {head.map((item: string, index: number) => {
+              return (<TableHeaderCell key={index}>{item}</TableHeaderCell>)
+            })}
+            <TableHeaderCell>PDF</TableHeaderCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {users.map((user: any, index: number) => {
+            const data = {
+              name: user[0],
+              phone: user[1],
+              company: user[2],
+              email: user[3],
+              id: user[4],
+            }
+            const query = '?' + new URLSearchParams(data).toString();
+            let url = `https://frontend-customer-kappa.vercel.app/customer${query}`;
+            return (
+              <TableRow key={index}>
+                {user.map((item: any, index: number) => {
+                  return <TableCell key={index}>{item}</TableCell>
+                })}
+                {/* <TableCell>
             <QRCode size={150} value={url}></QRCode>
           </TableCell> */}
-          <TableCell>
-            <Button onClick={() => handleGeneratePdf(user[4])}>PDF</Button>
-          </TableCell>
-        </TableRow>)
-      })}
-      </TableBody>
-    </Table>
+                <TableCell>
+                  <Button onClick={() => handleGeneratePdf(user[4])}>PDF</Button>
+                </TableCell>
+              </TableRow>)
+          })}
+        </TableBody>
+      </Table>
+
     </>
-    
-    
   );
 }
+
+
