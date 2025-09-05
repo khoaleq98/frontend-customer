@@ -93,9 +93,10 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
         level: user[3]
       }
       console.log(user);
-      const query = '?' + new URLSearchParams(data).toString();
-      const baseUrl = 'https://frontend-customer-kappa.vercel.app';
+      const query = '?id=' + user[4];
+      const baseUrl = 'http://localhost:3000';
       let url = `${baseUrl}/customer${query}`;
+      console.log(url)
       setQrUrl(url);
       setUser(data)
     }
