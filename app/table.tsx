@@ -25,11 +25,11 @@ import html2canvas from 'html2canvas';
 
 
 interface User {
-  id: number;
+  id: string;
   name: string;
-  username: string;
-  email: string;
-  avatar: string
+  pre_name: string;
+  company: string;
+  level: string
 }
 
 export default function UsersTable({ users }: { users: User[] | any[] }) {
@@ -37,10 +37,10 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
   const [show, setShow] = useState(false);
   const [qrUrl, setQrUrl] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
-  const [user, setUser] = useState<null | { id: any; name: any; phone: any; company: any; email: any; avatar: any }>(null);
+  const [user, setUser] = useState<null | { id: any; name: any; pre_name: any; company: any; level: any }>(null);
   useEffect(() => {
-    const head = users.shift();
-    setHead(head)
+    // // const head = users.shift();
+    // setHead(head)
   }, [])
   const componentRef = useRef(null);
   const handleDownload = async () => {
@@ -53,7 +53,7 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
       const dataUrl = canvas.toDataURL('image/jpeg');
       const link = document.createElement('a');
       link.href = dataUrl;
-      link.download = selectedUser + '.png';
+      link.download = user?.pre_name + user?.name + '.png';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -83,15 +83,14 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
   const handleGeneratePdf = (id: number) => {
     const user = users.find(item => item[4] == id);
     if (user) {
-      setSelectedUser(user[0]);
+      setSelectedUser(user);
       setShow(true);
       const data = {
         id: user[4],
-        name: user[0],
-        phone: user[1],
+        pre_name: user[0],
+        name: user[1],
         company: user[2],
-        email: user[3],
-        avatar: user[6]
+        level: user[3]
       }
       console.log(user);
       const query = '?' + new URLSearchParams(data).toString();
@@ -126,9 +125,9 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
           <main className="p-0 md:p-5 mx-0 max-w-8xl text-white" style={style} ref={componentRef}>
             <Row className='custom-height'>
               <Col lg={7} className="mx-0 d-flex flex-column align-items-center justify-content-center font-size-50">
-                <p className='custom-name'  >{selectedUser ? selectedUser : ''}</p>
+                <p className='custom-name'  >{`${user?.pre_name} ${user?.name}`}</p>
                 <br />
-                <p>{user?.company}</p>
+                <p>{`${user?.level} ${user?.company}`}</p>
               </Col>
             </Row>
             <Row className='custom-height'>
@@ -160,12 +159,12 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
       </Modal>
       <Table>
         <TableHead>
-          <TableRow>
+          {/* <TableRow>
             {head.map((item: string, index: number) => {
               return (<TableHeaderCell key={index}>{item}</TableHeaderCell>)
             })}
             <TableHeaderCell>PDF</TableHeaderCell>
-          </TableRow>
+          </TableRow> */}
         </TableHead>
         <TableBody>
           {users.map((user: any, index: number) => {
@@ -173,7 +172,6 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
               name: user[0],
               phone: user[1],
               company: user[2],
-              email: user[3],
               id: user[4],
             }
             const query = '?' + new URLSearchParams(data).toString();

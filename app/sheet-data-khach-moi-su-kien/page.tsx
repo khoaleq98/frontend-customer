@@ -11,7 +11,7 @@ export default async function IndexPage({
 }) {
   const getData = async () => {
     const res = await axios
-      .get("https://vercel-nodejs-six.vercel.app/api/sheet-qr");
+      .get("http://localhost:8080/api/sheet-qr");
     return res.data;
   };
   const {sheetName, rows} = await getData();
