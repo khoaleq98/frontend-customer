@@ -94,7 +94,7 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
       }
       console.log(user);
       const query = '?id=' + user[4];
-      const baseUrl = 'http://localhost:3000';
+      const baseUrl = 'http://app.ademax-event.club';
       let url = `${baseUrl}/customer${query}`;
       console.log(url)
       setQrUrl(url);
