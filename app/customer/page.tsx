@@ -17,7 +17,7 @@ async function submitData(id: any, password: string) {
 }
 
 async function getData(id: any) {
-  const res = await axios.get('http://localhost:8080/api/sheet-qr/detail?id=' + id);
+  const res = await axios.get('http://34.142.208.124:8080/api/sheet-qr/detail?id=' + id);
   return res.data;
 }
 
