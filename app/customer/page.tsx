@@ -34,7 +34,7 @@ export default async function Info() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/sheet-qr/detail?id=' + searchParams.get('id'));
+        const response = await fetch('http://34.142.208.124:8080/api/sheet-qr/detail?id=' + searchParams.get('id'));
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
