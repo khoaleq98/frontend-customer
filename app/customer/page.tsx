@@ -81,7 +81,7 @@ export default async function Info() {
         {!submit ? (
           <>
             <main className="mx-auto max-w-7xl">
-              <Image alt='test' src='/banner.png' width={1500} height={100} priority={false} />
+              <Image alt='test' src='/banner-2025.png' width={1500} height={100} priority={false} />
               <Card className="mx-auto">
                 <Image alt='confirmtext' src='/confirm.png' width={500} height={100} className='center' />
                 <Text><Bold>Qúy khách hàng: </Bold> {`${customer?.pre_name} ${customer?.name} ${customer?.level} ${customer?.company}`} </Text>
