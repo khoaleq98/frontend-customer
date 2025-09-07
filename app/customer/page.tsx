@@ -10,7 +10,7 @@ import Image from 'next/image';
 import { Col, Modal, Row, Spinner } from 'react-bootstrap';
 
 async function submitData(id: any, password: string) {
-  const res = await axios.get('https://34.142.208.124:8080/api/customer-info', {
+  const res = await axios.get('http://34.142.208.124:8080/api/customer-info', {
     params: { id, password }
   });
   return res.data;
