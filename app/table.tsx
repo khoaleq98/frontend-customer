@@ -169,14 +169,6 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
         </TableHead>
         <TableBody>
           {users.map((user: any, index: number) => {
-            const data = {
-              name: user[0],
-              phone: user[1],
-              company: user[2],
-              id: user[4],
-            }
-            const query = '?' + new URLSearchParams(data).toString();
-            let url = `https://frontend-customer-kappa.vercel.app/customer${query}`;
             return (
               <TableRow key={index}>
                 {user.map((item: any, index: number) => {
