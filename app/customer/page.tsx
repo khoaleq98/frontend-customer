@@ -9,8 +9,10 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Col, Modal, Row, Spinner } from 'react-bootstrap';
 
+const API_URL = 'http://api.ademax-event.online'
+
 async function submitData(id: any, password: string) {
-  const res = await axios.get('http://34.142.208.124:8080/api/customer-info', {
+  const res = await axios.get(API_URL + '/api/customer-info', {
     params: { id, password }
   });
   return res.data;
@@ -29,7 +31,7 @@ export default async function Info() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://34.142.208.124:8080/api/sheet-qr/detail?id=' + searchParams.get('id'));
+        const response = await fetch(API_URL + '/api/sheet-qr/detail?id=' + searchParams.get('id'));
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -78,14 +80,7 @@ export default async function Info() {
             <Text><Title>Checkin thành công</Title></Text>
           </Modal.Body>
         </Modal>
-          {!submit ? checkin ? <>
-            <Row>
-              <Col lg={12} className='mx-0 d-flex flex-column align-items-center justify-content-center font-size-50'>
-                <Text><Title color="red">Khách hàng: <Bold>{`${customer?.pre_name} ${customer?.name} ${customer?.level} ${customer?.company}`}</Bold> đã checkin thành công!</Title></Text>
-              </Col>
-            </Row>
-
-          </> : (
+          {!submit ? (
             <>
               <main className="mx-auto max-w-7xl">
                 <Image alt='test' src='/banner-2025.png' width={1500} height={100} priority={false} />
@@ -93,12 +88,14 @@ export default async function Info() {
                   <Image alt='confirmtext' src='/confirm.png' width={500} height={100} className='center' />
                   <Text><Bold>Qúy khách hàng: </Bold> {`${customer?.pre_name} ${customer?.name} ${customer?.level} ${customer?.company}`} </Text>
                   <Text>Ban Tổ chức hân hạnh được đón tiếp!</Text>
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    <TextInput {...register("password")} className='mt-2' placeholder='Nhân viên nhập mã tham dự' />
-                    <Button className="mt-5" type="submit">
-                      Tham Gia (Dành cho nhân viên)
-                    </Button>
-                  </form>
+                  {checkin ? <Text><Bold>Đã checkin thành công!</Bold></Text> :
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <TextInput {...register("password")} className='mt-2' placeholder='Nhân viên nhập mã tham dự' />
+                      <Button className="mt-5" type="submit">
+                        Tham Gia (Dành cho nhân viên)
+                      </Button>
+                    </form>}
+
                 </Card>
               </main>
             </>
