@@ -135,10 +135,10 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
               <Col lg={7} className="mx-0 d-flex flex-column align-items-center justify-content-center font-size-50">
                 {/* <QRCode size={300} value={qrUrl} bgColor='#2253A5' fgColor='white'></QRCode> */}
 
-              </Col>
+              {/* </Col>
             </Row>
-          </main> */}
-                <QRCode size={300} value={qrUrl} bgColor='#2253A5' fgColor='white'></QRCode>
+          </main> */} */}
+                <QRCode ref={componentRef} size={300} value={qrUrl} bgColor='#2253A5' fgColor='white'></QRCode>
 
         </Modal.Body >
         <Modal.Footer>
