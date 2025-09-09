@@ -129,7 +129,7 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
                 {/* <p className='custom-name'  >{`${user?.pre_name} ${user?.name}`}</p>
                 <br />
                 <p>{`${user?.level} ${user?.company}`}</p> */}
-                                <QRCode size={100} value={qrUrl} bgColor='#2253A5' fgColor='white'></QRCode>
+                                <QRCode size={100} value={qrUrl} bgColor='white' fgColor='black'></QRCode>
 
               </Col>
             </Row>
