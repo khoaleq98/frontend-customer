@@ -123,7 +123,7 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
           <Modal.Title>Thông tin khách mời: <Bold>{selectedUser ? selectedUser : ''}</Bold> </Modal.Title>
         </Modal.Header>
         <Modal.Body  >
-          <main className="p-0 md:p-5 mx-0 max-w-8xl text-white" style={style} ref={componentRef}>
+          {/* <main className="p-0 md:p-5 mx-0 max-w-8xl text-white" style={style} ref={componentRef}>
             <Row className='custom-height'>
               <Col lg={7} className="mx-0 d-flex flex-column align-items-center justify-content-center font-size-50">
                 <p className='custom-name'  >{`${user?.pre_name} ${user?.name}`}</p>
@@ -133,11 +133,13 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
             </Row>
             <Row className='custom-height'>
               <Col lg={7} className="mx-0 d-flex flex-column align-items-center justify-content-center font-size-50">
-                <QRCode size={100} value={qrUrl} bgColor='#2253A5' fgColor='white'></QRCode>
+                {/* <QRCode size={300} value={qrUrl} bgColor='#2253A5' fgColor='white'></QRCode> */}
 
               </Col>
             </Row>
-          </main>
+          </main> */}
+                <QRCode size={300} value={qrUrl} bgColor='#2253A5' fgColor='white'></QRCode>
+
         </Modal.Body >
         <Modal.Footer>
           <Button variant="secondary" onClick={() => {
