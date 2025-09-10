@@ -4,6 +4,9 @@ import axios from 'axios';
 
 export const dynamic = 'force-dynamic';
 
+const API_URL = 'http://api.ademax-event.online'
+
+
 export default async function IndexPage({
   searchParams
 }: {
@@ -11,7 +14,7 @@ export default async function IndexPage({
 }) {
   const getData = async () => {
     const res = await axios
-      .get("http://localhost:8080/api/sheet-qr");
+      .get(API_URL + "/api/sheet-qr");
     return res.data;
   };
   const {sheetName, rows} = await getData();

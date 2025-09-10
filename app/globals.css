@@ -32,11 +32,31 @@ body {
 
 .custom-name {
   position: relative;
-  font-size: 50px !important;
+  font-size: 25px !important;
   font-weight: bold;
   color: white,
 }
 
 .custom-height {
   height: 62% !important;
+}
+
+.custom-level {
+  position: relative;
+  font-size: 12px !important;
+}
+
+.custome-div {
+  top: 300px;
+  padding: 20px;
+  height: 62%;
+  width: 436px!important;
+  display: absolute;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-height-qr {
+  height: 45% !important;
 }

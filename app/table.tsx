@@ -14,7 +14,7 @@ import {
 } from '@tremor/react';
 
 import QRCode from 'react-qr-code';
-import { Modal, Col, Row } from 'react-bootstrap';
+import { Modal, Col, Row, CardImg, CardBody, CardText } from 'react-bootstrap';
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useReactToPrint } from 'react-to-print';
@@ -93,7 +93,8 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
         level: user[3]
       }
       console.log(user);
-      const query = '?id=' + user[4];
+      console.log("data: ", data)
+      const query = '?id=' + data.id;
       const baseUrl = 'http://app.ademax-event.online';
       let url = `${baseUrl}/customer${query}`;
       console.log(url)
@@ -110,36 +111,70 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
     documentTitle: `thu moi khach ${selectedUser}`
   });
   const style = {
-    backgroundImage: "url('/bg-new.png')",
+    backgroundImage: "url('/bg-new4.png')",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
-    width: "1600px",
-    height: "1000px",
+    width: "825.83px",
+    height: "567.69px",
   }
+
+  console.log({ show })
   return (
     <>
-      <Modal dialogClassName="custom-modal-size" show={show} className='px-auto' >
+      {/* <Modal dialogClassName="custom-modal-size" show={show} className='px-auto' > */}
+      <Modal size="xl" show={show} className='px-auto d-flex flex-column align-items-center justify-content-center' >
         <Modal.Header closeButton>
           <Modal.Title>Thông tin khách mời: <Bold>{selectedUser ? selectedUser : ''}</Bold> </Modal.Title>
         </Modal.Header>
         <Modal.Body  >
-          <main className="p-0 md:p-5 mx-0 max-w-8xl text-white"  ref={componentRef}>
-            <Row className='custom-height'>
-              <Col lg={3} className="mx-0 d-flex flex-column align-items-center justify-content-center font-size-50">
-                {/* <p className='custom-name'  >{`${user?.pre_name} ${user?.name}`}</p>
-                <br />
-                <p>{`${user?.level} ${user?.company}`}</p> */}
-                                <QRCode size={100} value={qrUrl} bgColor='white' fgColor='black'></QRCode>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '100%',
+              width: '100%',
+            }}>
+            <main className="p-0 md:p-0 mx-0 max-w-8xl text-white" style={style} ref={componentRef}>
+              {/* <div className='custom-div'>
+                <div>
+                  <p className='custom-name'  >{`${user?.pre_name} ${user?.name}`}</p>
+                  <br />
+                  <p className='custom-level'>{`${user?.level} ${user?.company}`}</p>
+                </div>
+              </div> */}
 
-              </Col>
-            </Row>
-            {/* <Row className='custom-height'>
-              <Col lg={7} className="mx-0 d-flex flex-column align-items-center justify-content-center font-size-50">
-                <QRCode size={100} value={qrUrl} bgColor='#2253A5' fgColor='white'></QRCode>
+              <Row className='custom-height'>
+                <Col lg={6} className="mx-0 d-flex flex-column align-items-center justify-content-center font-size-18">
+                  <p className='custom-name'  >{`${user?.pre_name} ${user?.name}`}</p>
+                  <br />
+                  <p className='custom-level'>{`${user?.level} ${user?.company}`}</p>
 
-              </Col>
-            </Row> */}
-          </main>
+                </Col>
+              </Row>
+              <Row className='custom-height-qr'>
+                <Col lg={6} className="mx-0">
+                  {/* <div>
+                  
+                </div> */}
+                  <Card style={{ width: '57px', height: '71px', top: '90px', left: '181px' }}>
+                    <CardBody style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: '100%',
+                    }}>
+                      {/* <QRCode size={36} value={qrUrl} bgColor='white' fgColor='black'></QRCode>
+                      <Bold className='text-black'>MÃ CHECKIN IN</Bold> */}
+                    </CardBody>
+                  </Card>
+
+
+                </Col>
+              </Row>
+            </main>
+          </div>
         </Modal.Body >
         <Modal.Footer>
           <Button variant="secondary" onClick={() => {
@@ -147,12 +182,6 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
           }}>
             Close
           </Button>
-          {/* <Button variant="primary" onClick={() => {
-            handlePrint()
-          }}>
-            Get PDF
-          </Button> */}
-
           <Button variant="primary" onClick={() => {
             handleDownload()
           }}>
@@ -162,12 +191,6 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
       </Modal>
       <Table>
         <TableHead>
-          {/* <TableRow>
-            {head.map((item: string, index: number) => {
-              return (<TableHeaderCell key={index}>{item}</TableHeaderCell>)
-            })}
-            <TableHeaderCell>PDF</TableHeaderCell>
-          </TableRow> */}
         </TableHead>
         <TableBody>
           {users.map((user: any, index: number) => {
