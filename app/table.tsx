@@ -136,17 +136,12 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
               justifyContent: 'center',
               alignItems: 'center',
               minHeight: '100%',
-              width: '100%',
-              backgroundColor: '#2857a3 !important',
-            
-            }} ref={componentRef}>
-            <div className="p-0 md:p-0 mx-0 max-w-8xl text-white" style={{
+            }} >
+            <div ref={componentRef}  className="p-0 md:p-0 mx-0 max-w-8xl text-white" style={{
               backgroundColor: '#2857a3 !important',
             }}  >
-              <div style={{
-                
-              }}>
-              <QRCode size={qrSize} value={qrUrl} bgColor='white' fgColor='black'></QRCode>
+              <div>
+              <QRCode style={{padding: '2px 3px 3px 2px'}} ref={componentRef}  size={qrSize} value={qrUrl} bgColor='white' fgColor='black'></QRCode>
               <div className='d-flex flex-column align-items-center justify-content-center'></div>
               {/* <Bold className='text-black text-center'> <p>MÃ</p> <p>CHECK IN</p></Bold> */}
               </div>
