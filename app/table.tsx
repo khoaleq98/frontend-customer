@@ -10,7 +10,8 @@ import {
   Button,
   Card,
   Title,
-  Bold
+  Bold,
+  TextInput
 } from '@tremor/react';
 
 import QRCode from 'react-qr-code';
@@ -36,6 +37,7 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
   const [head, setHead] = useState([]);
   const [show, setShow] = useState(false);
   const [qrUrl, setQrUrl] = useState('');
+  const [qrSize, setQrSize] = useState(120);
   const [selectedUser, setSelectedUser] = useState(null);
   const [user, setUser] = useState<null | { id: any; name: any; pre_name: any; company: any; level: any }>(null);
   useEffect(() => {
@@ -122,20 +124,32 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
   return (
     <>
       {/* <Modal dialogClassName="custom-modal-size" show={show} className='px-auto' > */}
-      <Modal size="xl" show={show} className='px-auto d-flex flex-column align-items-center justify-content-center' >
+      <Modal size="sm" show={show} className='px-auto d-flex flex-column align-items-center justify-content-center' >
         <Modal.Header closeButton>
           <Modal.Title>Thông tin khách mời: <Bold>{selectedUser ? selectedUser : ''}</Bold> </Modal.Title>
         </Modal.Header>
-        <Modal.Body  >
+        <Modal.Body>
           <div
+          className='py-2'
             style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               minHeight: '100%',
               width: '100%',
-            }}>
-            <main className="p-0 md:p-0 mx-0 max-w-8xl text-white" style={style} ref={componentRef}>
+              backgroundColor: '#2857a3 !important',
+            
+            }} ref={componentRef}>
+            <div className="p-0 md:p-0 mx-0 max-w-8xl text-white" style={{
+              backgroundColor: '#2857a3 !important',
+            }}  >
+              <div style={{
+                
+              }}>
+              <QRCode size={qrSize} value={qrUrl} bgColor='white' fgColor='black'></QRCode>
+              <div className='d-flex flex-column align-items-center justify-content-center'></div>
+              {/* <Bold className='text-black text-center'> <p>MÃ</p> <p>CHECK IN</p></Bold> */}
+              </div>
               {/* <div className='custom-div'>
                 <div>
                   <p className='custom-name'  >{`${user?.pre_name} ${user?.name}`}</p>
@@ -144,19 +158,16 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
                 </div>
               </div> */}
 
-              <Row className='custom-height'>
+              {/* <Row className='custom-height'>
                 <Col lg={6} className="mx-0 d-flex flex-column align-items-center justify-content-center font-size-18">
                   <p className='custom-name'  >{`${user?.pre_name} ${user?.name}`}</p>
                   <br />
                   <p className='custom-level'>{`${user?.level} ${user?.company}`}</p>
 
                 </Col>
-              </Row>
-              <Row className='custom-height-qr'>
+              </Row> */}
+              {/* <Row className='custom-height-qr'>
                 <Col lg={6} className="mx-0">
-                  {/* <div>
-                  
-                </div> */}
                   <Card style={{ width: '57px', height: '71px', top: '90px', left: '181px' }}>
                     <CardBody style={{
                       display: 'flex',
@@ -165,15 +176,12 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
                       justifyContent: 'center',
                       height: '100%',
                     }}>
-                      {/* <QRCode size={36} value={qrUrl} bgColor='white' fgColor='black'></QRCode>
-                      <Bold className='text-black'>MÃ CHECKIN IN</Bold> */}
+                    
                     </CardBody>
                   </Card>
-
-
                 </Col>
-              </Row>
-            </main>
+              </Row> */}
+            </div>
           </div>
         </Modal.Body >
         <Modal.Footer>
@@ -191,6 +199,12 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
       </Modal>
       <Table>
         <TableHead>
+          <TextInput onChange={(e) => setQrSize(Number(e.target.value))} placeholder='qr size'/>
+           <Button variant="secondary" onClick={() => {
+            setShow(false);
+          }}>
+            Setting
+          </Button>
         </TableHead>
         <TableBody>
           {users.map((user: any, index: number) => {
