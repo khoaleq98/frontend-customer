@@ -44,26 +44,73 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
     // // const head = users.shift();
     // setHead(head)
   }, [])
-  const componentRef = useRef(null);
+  const componentRef = useRef<HTMLDivElement>(null);
+  // const handleDownload = async () => {
+
+  //   if (!componentRef.current) {
+  //     console.error('Component reference is null');
+  //     return;
+  //   }
+  //   try {
+  //     const canvas = await html2canvas(componentRef.current);
+  //     const dataUrl = canvas.toDataURL('image/jpeg');
+  //     const link = document.createElement('a');
+  //     link.href = dataUrl;
+  //     link.download = user?.pre_name + user?.name + '.png';
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     document.body.removeChild(link);
+  //   } catch (error) {
+  //     console.error('Failed to download image:', error);
+  //     alert('Failed to download image.');
+  //   }
+  // };
+
   const handleDownload = async () => {
-    if (!componentRef.current) {
-      console.error('Component reference is null');
-      return;
-    }
-    try {
-      const canvas = await html2canvas(componentRef.current);
-      const dataUrl = canvas.toDataURL('image/jpeg');
-      const link = document.createElement('a');
-      link.href = dataUrl;
-      link.download = user?.pre_name + user?.name + '.png';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error('Failed to download image:', error);
-      alert('Failed to download image.');
-    }
-  };
+  // if (!componentRef.current) {
+  //   console.error('Component reference is null');
+  //   return;
+  // }
+  // try {
+  //   const canvas = await html2canvas(componentRef.current, {
+  //     // scale: 2,
+  //      // Increase this value for higher quality (e.g., 2, 3, or 4)
+  //   });
+  //   const dataUrl = canvas.toDataURL('image/svg+xml', 1.0); // 1.0 for highest quality
+  //   const link = document.createElement('a');
+  //   link.href = dataUrl;
+  //   link.download = user?.pre_name + user?.name + '.svg';
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  // } catch (error) {
+  //   console.error('Failed to download image:', error);
+  //   alert('Failed to download image.');
+  // }
+
+   if (!componentRef.current) {
+    console.error('Component reference is null');
+    return;
+  }
+  // Find the SVG element inside the QRCode component
+  const svg = componentRef.current.querySelector('svg');
+  if (!svg) {
+    alert('SVG not found!');
+    return;
+  }
+  const serializer = new XMLSerializer();
+  const svgString = serializer.serializeToString(svg);
+  const blob = new Blob([svgString], { type: 'image/svg+xml' });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `${user?.pre_name ?? 'qr'}${user?.name ?? ''}.svg`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
   const handleCopy = async () => {
     if (!componentRef.current) {
       console.error('Component reference is null');
@@ -137,13 +184,13 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
               alignItems: 'center',
               minHeight: '100%',
             }} >
-            <div ref={componentRef}  className="p-0 md:p-0 mx-0 max-w-8xl text-white" style={{
+            <div ref={componentRef} className="p-0 md:p-0 mx-0 max-w-8xl text-white" style={{
               backgroundColor: '#2857a3 !important',
             }}  >
               <div>
-              <QRCode style={{padding: '2px 3px 3px 2px'}} ref={componentRef}  size={qrSize} value={qrUrl} bgColor='white' fgColor='black'></QRCode>
-              <div className='d-flex flex-column align-items-center justify-content-center'></div>
-              {/* <Bold className='text-black text-center'> <p>MÃ</p> <p>CHECK IN</p></Bold> */}
+                <QRCode style={{padding: '2px 3px 3px 2px', width: qrSize, height: qrSize}} size={qrSize} value={qrUrl} level='Q' bgColor='white' fgColor='black'></QRCode>
+                <div className='d-flex flex-column align-items-center justify-content-center'></div>
+                {/* <Bold className='text-black text-center'> <p>MÃ</p> <p>CHECK IN</p></Bold> */}
               </div>
               {/* <div className='custom-div'>
                 <div>
