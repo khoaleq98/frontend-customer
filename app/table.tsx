@@ -116,7 +116,7 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
         <Modal.Body >
           <div ref={componentRef} style={style}>
             <img
-              src="/banner-7.png"
+              src="/banner-9.png"
               alt="Background"
               style={{
                 position: 'absolute',
@@ -133,14 +133,17 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
             />
             <div className="content-name text-white d-flex flex-column align-items-center justify-content-center"
               style={{ marginTop: '105px', width: '450px', position: 'relative', zIndex: 1 }} >
-              <p className='custom-name'>{`${user?.pre_name} ${user?.name}`}</p>
-              <p className='custom-level d-flex flex-column align-items-center justify-content-center'>
-                {`${user?.level}`}
-                <br />
+              <p className='custom-level d-flex flex-column align-items-center justify-content-center'> 
+                <span className='custom-name'>{`${user?.pre_name} ${user?.name}`}</span> 
+                <span>
+                  {`${user?.level}`}
+                </span>
                 <span>
                   {`${user?.company}`}
-                </span>
-              </p>
+                </span></p>
+              {/* <p className='custom-level d-flex flex-column align-items-center justify-content-center'>
+               
+              </p> */}
 
             </div>
             <div className="content-name flex-column align-items-center justify-content-center"
