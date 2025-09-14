@@ -114,13 +114,13 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
           <Modal.Title>Thông tin khách mời: <Bold>{selectedUser ? selectedUser : ''}</Bold> </Modal.Title>
         </Modal.Header>
         <Modal.Body style={style} ref={componentRef} >
-          <div className="content-name text-white d-flex flex-column align-items-center justify-content-center" style={{ marginTop: '105px', width: '450px', position: 'fixed' }} >
+          <div className="content-name text-white d-flex flex-column align-items-center justify-content-center" style={{ marginTop: '105px', width: '450px'}} >
             <p className='custom-name'  >{`${user?.pre_name} ${user?.name}`}</p>
             <p className='custom-level'>{`${user?.level}`}</p>
             <p className='custom-level'>{`${user?.company}`}</p>
           </div>
 
-          <div className="content-name text-white d-flex flex-column align-items-center justify-content-center" style={{ marginTop: '431px', width: '439px', position: 'fixed' }} >
+          <div className="content-name text-white d-flex flex-column align-items-center justify-content-center" style={{ marginTop: '251px', width: '439px'}} >
             <QRCode size={qrSize} value={qrUrl} bgColor='transparent' fgColor='white'></QRCode>
           </div>
         </Modal.Body >
