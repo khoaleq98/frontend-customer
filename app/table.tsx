@@ -23,6 +23,8 @@ import InvitationBootstrapPro from './invite-card';
 import { m, px } from 'framer-motion';
 import { set } from 'react-hook-form';
 import html2canvas from 'html2canvas';
+import { backgroundImage } from 'html2canvas/dist/types/css/property-descriptors/background-image';
+import jsPDF from 'jspdf';
 
 
 interface User {
@@ -46,13 +48,12 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
   }, [])
   const componentRef = useRef<HTMLDivElement>(null);
   const handleDownload = async () => {
-
     if (!componentRef.current) {
       console.error('Component reference is null');
       return;
     }
     try {
-      const canvas = await html2canvas(componentRef.current);
+      const canvas = await html2canvas(componentRef.current, { scale: 1 });
       const dataUrl = canvas.toDataURL('image/png');
       const link = document.createElement('a');
       link.href = dataUrl;
@@ -96,33 +97,97 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
     content: () => componentRef.current,
     documentTitle: `thu moi khach ${selectedUser}`
   });
-  const style = {
-    backgroundImage: "url('/banner-5.jpg')",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    width: "825.83px",
-    height: "567.69px",
-
+  const style: React.CSSProperties = {
+    width: "825px",
+    height: "567px",
+    position: 'relative',
+    overflow: 'hidden',
+    padding: 0,
   }
 
   console.log({ show })
   return (
     <>
       {/* <Modal dialogClassName="custom-modal-size" show={show} className='px-auto' > */}
-      <Modal size="xl" show={show} className='px-auto d-flex flex-column align-items-center justify-content-center' >
+      <Modal size="xl" show={show} >
         <Modal.Header closeButton>
           <Modal.Title>Thông tin khách mời: <Bold>{selectedUser ? selectedUser : ''}</Bold> </Modal.Title>
         </Modal.Header>
-        <Modal.Body style={style} ref={componentRef} >
-          <div className="content-name text-white d-flex flex-column align-items-center justify-content-center" style={{ marginTop: '105px', width: '450px'}} >
+        <Modal.Body >
+          {/* <img
+            src="/banner-7.png"
+            alt="Background"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 0,
+              pointerEvents: 'none',
+              userSelect: 'none',
+            }}
+            draggable={false}
+          />
+          <div className="content-name text-white d-flex flex-column align-items-center justify-content-center" style={{ marginTop: '105px', width: '450px', position: 'relative' }} >
             <p className='custom-name'  >{`${user?.pre_name} ${user?.name}`}</p>
             <p className='custom-level'>{`${user?.level}`}</p>
             <p className='custom-level'>{`${user?.company}`}</p>
           </div>
 
-          <div className="content-name text-white d-flex flex-column align-items-center justify-content-center" style={{ marginTop: '251px', width: '439px'}} >
-            <QRCode size={qrSize} value={qrUrl} bgColor='transparent' fgColor='white'></QRCode>
+          <div className="qr-content" style={{ marginTop: '263px', width: '448px', position: 'relative' }} >
+            <QRCode className="qr-content" size={qrSize} value={qrUrl} style={{ marginLeft: '190px', position: 'relative' }} bgColor='transparent' fgColor='white'></QRCode>
+          </div> */}
+          <div ref={componentRef} style={style}>
+            <img
+              src="/banner-7.png"
+              alt="Background"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                zIndex: 0,
+                pointerEvents: 'none',
+                userSelect: 'none',
+              }}
+              draggable={false}
+            />
+            <div className="content-name text-white d-flex flex-column align-items-center justify-content-center"
+              style={{ marginTop: '105px', width: '450px', position: 'relative', zIndex: 1 }} >
+              <p className='custom-name'>{`${user?.pre_name} ${user?.name}`}</p>
+              <p className='custom-level'>{`${user?.level}`}</p>
+              <p className='custom-level'>{`${user?.company}`}</p>
+
+            </div>
+            <div className="content-name flex-column align-items-center justify-content-center"
+              style={{
+                position: 'absolute',
+                top: '447px',
+                left: '196px',
+                padding: 0,
+                margin: 0,
+                // width: `${qrSize}px`,
+                // height: `${qrSize}px`,
+                zIndex: 1
+              }}
+            >
+              <QRCode
+                size={qrSize}
+                value={qrUrl}
+                bgColor='transparent'
+                fgColor='white'
+                style={{
+                  width: '100%',
+                  height: '100%'
+                }}
+              />
+            </div>
           </div>
+
         </Modal.Body >
         <Modal.Footer>
           <Button variant="secondary" onClick={() => {

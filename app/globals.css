@@ -30,12 +30,24 @@ body {
   height: 1230px !important;
 }
 
+@font-face {
+  font-family: "GoogleSansBold";
+  src: url('/public/GoogleSans-Bold.otf') format('truetype');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "GoogleSansReg";
+  src: url('/public/GoogleSans-Regular.otf') format('truetype');
+}
+
+
 .custom-name {
   position: relative;
   font-size: 25px !important;
   font-weight: bold;
   color: white;
-  /* font-family: 'Google Sans' !important; */
+  /* font-family: 'GoogleSansBold' !important; */
 }
 
 .custom-height {
@@ -45,8 +57,8 @@ body {
 
 .custom-level {
   position: relative;
-  font-size: 12px !important;
-  font-family: 'Google Sans'!important;
+  font-size: 13px !important;
+  /* font-family: 'GoogleSansReg'!important; */
 }
 
 .custome-div {
@@ -60,6 +72,28 @@ body {
   align-items: center;
 }
 
-.custom-height-qr {
+/* .custom-height-qr {
   height: 45% !important;
-}
+} */
+
+/* .downloading {
+  display: block !important;
+  margin: 0 !important;
+  left: 0 !important;
+  top: 0 !important;
+  transform: none !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+} */
+
+/* .qr-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 448px;
+  height: 448px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
