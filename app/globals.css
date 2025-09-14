@@ -34,23 +34,26 @@ body {
   position: relative;
   font-size: 25px !important;
   font-weight: bold;
-  color: white,
+  color: white;
+  /* font-family: 'Google Sans' !important; */
 }
 
 .custom-height {
+  top: 120px;
   height: 62% !important;
 }
 
 .custom-level {
   position: relative;
   font-size: 12px !important;
+  font-family: 'Google Sans'!important;
 }
 
 .custome-div {
   top: 300px;
   padding: 20px;
   height: 62%;
-  width: 436px!important;
+  width: 436px !important;
   display: absolute;
   flex-direction: column;
   justify-content: center;

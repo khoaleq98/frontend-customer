@@ -37,7 +37,7 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
   const [head, setHead] = useState([]);
   const [show, setShow] = useState(false);
   const [qrUrl, setQrUrl] = useState('');
-  const [qrSize, setQrSize] = useState(120);
+  const [qrSize, setQrSize] = useState(67);
   const [selectedUser, setSelectedUser] = useState(null);
   const [user, setUser] = useState<null | { id: any; name: any; pre_name: any; company: any; level: any }>(null);
   useEffect(() => {
@@ -45,90 +45,27 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
     // setHead(head)
   }, [])
   const componentRef = useRef<HTMLDivElement>(null);
-  // const handleDownload = async () => {
-
-  //   if (!componentRef.current) {
-  //     console.error('Component reference is null');
-  //     return;
-  //   }
-  //   try {
-  //     const canvas = await html2canvas(componentRef.current);
-  //     const dataUrl = canvas.toDataURL('image/jpeg');
-  //     const link = document.createElement('a');
-  //     link.href = dataUrl;
-  //     link.download = user?.pre_name + user?.name + '.png';
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     document.body.removeChild(link);
-  //   } catch (error) {
-  //     console.error('Failed to download image:', error);
-  //     alert('Failed to download image.');
-  //   }
-  // };
-
   const handleDownload = async () => {
-  // if (!componentRef.current) {
-  //   console.error('Component reference is null');
-  //   return;
-  // }
-  // try {
-  //   const canvas = await html2canvas(componentRef.current, {
-  //     // scale: 2,
-  //      // Increase this value for higher quality (e.g., 2, 3, or 4)
-  //   });
-  //   const dataUrl = canvas.toDataURL('image/svg+xml', 1.0); // 1.0 for highest quality
-  //   const link = document.createElement('a');
-  //   link.href = dataUrl;
-  //   link.download = user?.pre_name + user?.name + '.svg';
-  //   document.body.appendChild(link);
-  //   link.click();
-  //   document.body.removeChild(link);
-  // } catch (error) {
-  //   console.error('Failed to download image:', error);
-  //   alert('Failed to download image.');
-  // }
 
-   if (!componentRef.current) {
-    console.error('Component reference is null');
-    return;
-  }
-  // Find the SVG element inside the QRCode component
-  const svg = componentRef.current.querySelector('svg');
-  if (!svg) {
-    alert('SVG not found!');
-    return;
-  }
-  const serializer = new XMLSerializer();
-  const svgString = serializer.serializeToString(svg);
-  const blob = new Blob([svgString], { type: 'image/svg+xml' });
-  const url = URL.createObjectURL(blob);
-
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = `${user?.pre_name ?? 'qr'}${user?.name ?? ''}.svg`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-};
-  const handleCopy = async () => {
     if (!componentRef.current) {
       console.error('Component reference is null');
       return;
     }
     try {
       const canvas = await html2canvas(componentRef.current);
-      const blob: Blob | null = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-      if (blob) {
-        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-      } else {
-        throw new Error('Failed to create image blob');
-      }
+      const dataUrl = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = user?.pre_name + user?.name + '.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     } catch (error) {
-      console.error('Failed to copy image:', error);
-      alert('Failed to copy image. Please ensure your browser permissions are granted and you are using a supported browser (Chrome/Edge, HTTPS).');
+      console.error('Failed to download image:', error);
+      alert('Failed to download image.');
     }
   };
+
   const handleGeneratePdf = (id: number) => {
     const user = users.find(item => item[4] == id);
     if (user) {
@@ -160,70 +97,31 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
     documentTitle: `thu moi khach ${selectedUser}`
   });
   const style = {
-    backgroundImage: "url('/bg-new4.png')",
+    backgroundImage: "url('/banner-5.jpg')",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     width: "825.83px",
     height: "567.69px",
+
   }
 
   console.log({ show })
   return (
     <>
       {/* <Modal dialogClassName="custom-modal-size" show={show} className='px-auto' > */}
-      <Modal size="sm" show={show} className='px-auto d-flex flex-column align-items-center justify-content-center' >
+      <Modal size="xl" show={show} className='px-auto d-flex flex-column align-items-center justify-content-center' >
         <Modal.Header closeButton>
           <Modal.Title>Thông tin khách mời: <Bold>{selectedUser ? selectedUser : ''}</Bold> </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <div
-          className='py-2'
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '100%',
-            }} >
-            <div ref={componentRef} className="p-0 md:p-0 mx-0 max-w-8xl text-white" style={{
-              backgroundColor: '#2857a3 !important',
-            }}  >
-              <div>
-                <QRCode style={{padding: '2px 3px 3px 2px', width: qrSize, height: qrSize}} size={qrSize} value={qrUrl} level='Q' bgColor='white' fgColor='black'></QRCode>
-                <div className='d-flex flex-column align-items-center justify-content-center'></div>
-                {/* <Bold className='text-black text-center'> <p>MÃ</p> <p>CHECK IN</p></Bold> */}
-              </div>
-              {/* <div className='custom-div'>
-                <div>
-                  <p className='custom-name'  >{`${user?.pre_name} ${user?.name}`}</p>
-                  <br />
-                  <p className='custom-level'>{`${user?.level} ${user?.company}`}</p>
-                </div>
-              </div> */}
+        <Modal.Body style={style} ref={componentRef} >
+          <div className="content-name text-white d-flex flex-column align-items-center justify-content-center" style={{ marginTop: '105px', width: '450px', position: 'fixed' }} >
+            <p className='custom-name'  >{`${user?.pre_name} ${user?.name}`}</p>
+            <p className='custom-level'>{`${user?.level}`}</p>
+            <p className='custom-level'>{`${user?.company}`}</p>
+          </div>
 
-              {/* <Row className='custom-height'>
-                <Col lg={6} className="mx-0 d-flex flex-column align-items-center justify-content-center font-size-18">
-                  <p className='custom-name'  >{`${user?.pre_name} ${user?.name}`}</p>
-                  <br />
-                  <p className='custom-level'>{`${user?.level} ${user?.company}`}</p>
-
-                </Col>
-              </Row> */}
-              {/* <Row className='custom-height-qr'>
-                <Col lg={6} className="mx-0">
-                  <Card style={{ width: '57px', height: '71px', top: '90px', left: '181px' }}>
-                    <CardBody style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      height: '100%',
-                    }}>
-                    
-                    </CardBody>
-                  </Card>
-                </Col>
-              </Row> */}
-            </div>
+          <div className="content-name text-white d-flex flex-column align-items-center justify-content-center" style={{ marginTop: '431px', width: '439px', position: 'fixed' }} >
+            <QRCode size={qrSize} value={qrUrl} bgColor='transparent' fgColor='white'></QRCode>
           </div>
         </Modal.Body >
         <Modal.Footer>
@@ -241,8 +139,8 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
       </Modal>
       <Table>
         <TableHead>
-          <TextInput onChange={(e) => setQrSize(Number(e.target.value))} placeholder='qr size'/>
-           <Button variant="secondary" onClick={() => {
+          <TextInput onChange={(e) => setQrSize(Number(e.target.value))} placeholder='qr size' />
+          <Button variant="secondary" onClick={() => {
             setShow(false);
           }}>
             Setting
