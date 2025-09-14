@@ -134,7 +134,8 @@ export default function UsersTable({ users }: { users: User[] | any[] }) {
             <div className="content-name text-white d-flex flex-column align-items-center justify-content-center"
               style={{ marginTop: '105px', width: '450px', position: 'relative', zIndex: 1 }} >
               <p className='custom-name'>{`${user?.pre_name} ${user?.name}`}</p>
-              <p className='custom-level text-white d-flex flex-column align-items-center justify-content-center'>{`${user?.level}`}
+              <p className='custom-level d-flex flex-column align-items-center justify-content-center'>
+                {`${user?.level}`}
                 <br />
                 <span>
                   {`${user?.company}`}
